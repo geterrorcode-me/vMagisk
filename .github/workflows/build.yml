@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch: # Memungkinkan build manual
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,12 +13,12 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Update ke v4
 
       - name: Setup NDK
         uses: nttld/setup-ndk@v1
         with:
-          ndk-version: r25c # Sesuaikan dengan versi NDK yang kamu pakai (25.2.x)
+          ndk-version: r25c
 
       - name: Compile vmeerd with ndk-build
         run: |
@@ -30,14 +30,9 @@ jobs:
 
       - name: Prepare Magisk Module Structure
         run: |
-          # Pindahkan hasil compile ke struktur folder system
-          # libs/arm64-v8a/vmeerd adalah output default ndk-build
+          mkdir -p system/bin
           cp libs/arm64-v8a/vmeerd system/bin/
-          
-          # Hapus folder sampah hasil build agar tidak masuk ke zip
           rm -rf libs obj
-          
-          # Beri izin eksekusi pada script
           chmod +x service.sh
           chmod +x system/bin/vmeerd
 
@@ -46,8 +41,8 @@ jobs:
           zip -r vMagisk-Module.zip . -x "*.git*" ".github*" "jni*"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # WAJIB Update ke v4
         with:
           name: vMagisk-Release
           path: vMagisk-Module.zip
-          
+          compression-level: 9 # Opsional: kompresi maksimal
