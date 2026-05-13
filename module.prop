@@ -1,0 +1,6 @@
+id=vmeer_vfs_system
+name=vMeer OS System Provider
+version=v1.0.0
+versionCode=100
+author=vMeer
+description=Core Daemon & Namespace Isolation for vMeer Engine. Includes vmeerd and mount policies.

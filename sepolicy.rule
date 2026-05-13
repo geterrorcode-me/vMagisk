@@ -1,0 +1,5 @@
+# Allow vmeerd to operate as a root daemon
+allow vmeerd self capability { sys_admin chown dac_override dac_read_search }
+allow vmeerd vmeerd_exec file { execute_no_trans }
+allow vmeerd storage_file dir { mounton }
+allow vmeerd vendor_file file { read open getattr }

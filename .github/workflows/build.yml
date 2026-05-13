@@ -1,0 +1,53 @@
+name: Build vMagisk Module
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Memungkinkan build manual
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r25c # Sesuaikan dengan versi NDK yang kamu pakai (25.2.x)
+
+      - name: Compile vmeerd with ndk-build
+        run: |
+          ndk-build -C ./jni \
+          NDK_PROJECT_PATH=. \
+          APP_BUILD_SCRIPT=./jni/Android.mk \
+          APP_ABI=arm64-v8a \
+          APP_PLATFORM=android-21
+
+      - name: Prepare Magisk Module Structure
+        run: |
+          # Pindahkan hasil compile ke struktur folder system
+          # libs/arm64-v8a/vmeerd adalah output default ndk-build
+          cp libs/arm64-v8a/vmeerd system/bin/
+          
+          # Hapus folder sampah hasil build agar tidak masuk ke zip
+          rm -rf libs obj
+          
+          # Beri izin eksekusi pada script
+          chmod +x service.sh
+          chmod +x system/bin/vmeerd
+
+      - name: Zip Magisk Module
+        run: |
+          zip -r vMagisk-Module.zip . -x "*.git*" ".github*" "jni*"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vMagisk-Release
+          path: vMagisk-Module.zip
+          
