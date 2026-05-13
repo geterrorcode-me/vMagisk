@@ -4,14 +4,14 @@
       "file": "/storage/emulated/0/AndroidIDEProjects/vMagisk/.github/workflows/build.yml",
       "selection": {
         "end": {
-          "column": 10,
-          "index": 1402,
-          "line": 52
+          "column": 0,
+          "index": 1176,
+          "line": 48
         },
         "start": {
-          "column": 10,
-          "index": 1402,
-          "line": 52
+          "column": 0,
+          "index": 1176,
+          "line": 48
         }
       }
     },
@@ -27,6 +27,21 @@
           "column": 1,
           "index": 3994,
           "line": 117
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/vMagisk/jni/Android.mk",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     }
